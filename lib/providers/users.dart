@@ -16,12 +16,11 @@ class Users with ChangeNotifier {
   }
 
   Future<void> fetchUsersFromServer() async {
-    print('метод fetchUsersFromServer() начал свое выполнение');
     final response = await http.get(
       Uri.parse('https://jsonplaceholder.typicode.com/users'),
     );
     final extractedData = json.decode(response.body);
-    print(extractedData);
+    //print(extractedData);
     _loadedUsers.clear();
     for (var user in extractedData) {
       _loadedUsers.add(

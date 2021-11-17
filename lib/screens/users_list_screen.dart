@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:eclipse_test_task/consts/my_colors.dart';
 import 'package:eclipse_test_task/providers/users.dart';
-import 'package:eclipse_test_task/widgets/my_appbar.dart';
 
 class UsersListScreen extends StatefulWidget {
   static const routeName = '/users-list';
@@ -38,56 +37,46 @@ class _UsersListScreenState extends State<UsersListScreen> {
     return Container(
       height:
           deviceSize.height - (MediaQuery.of(context).padding.top + 60 + 27),
-      child: MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: ListView.builder(
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserScreen(
-                      id: Provider.of<Users>(
-                        context,
-                        listen: false,
-                      ).users[index].id,
-                    ),
-                  ),
-                );
-              },
-              child: Card(
-                elevation: 10,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: MyColors.light_blue,
-                    child: Center(
-                      child: Text(
-                        users[index].id.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                  title: Text(
-                    users[index].username,
-                  ),
-                  subtitle: Text(
-                    users[index].name,
-                  ),
-                  trailing: Icon(
-                    Icons.chevron_right_sharp,
-                  ),
+      child: ListView.builder(
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserScreen(
+                  id: Provider.of<Users>(
+                    context,
+                    listen: false,
+                  ).users[index].id,
                 ),
               ),
-            ),
+            );
+          },
+          child: Column(
+            children: [
+              index == 0 ? SizedBox(height: 15) : SizedBox(),
+              ListTile(
+                leading: CircleAvatar(
+                  child: Text(
+                    users[index].id.toString(),
+                  ),
+                  backgroundColor: MyColors.light_blue,
+                  foregroundColor: Colors.white,
+                ),
+                title: Text(
+                  users[index].username,
+                ),
+                subtitle: Text(
+                  users[index].name,
+                ),
+                trailing: Icon(
+                  Icons.chevron_right_sharp,
+                ),
+              ),
+            ],
           ),
-          itemCount: users.length,
         ),
+        itemCount: users.length,
       ),
     );
   }
@@ -98,21 +87,18 @@ class _UsersListScreenState extends State<UsersListScreen> {
     var users = Provider.of<Users>(context).users;
     return Scaffold(
       backgroundColor: MyColors.light_white,
+      appBar: AppBar(
+        title: Text('Users list'),
+        backgroundColor: MyColors.light_white,
+        foregroundColor: Colors.black,
+        elevation: 0.5,
+      ),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
           : Column(
               children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).padding.top + 27,
-                ),
-                MyAppbar(
-                  deviceSize: deviceSize,
-                  title: 'Список пользователей',
-                  hasBackButton: false,
-                ),
-                SizedBox(height: 20),
                 RefreshIndicator(
                   onRefresh: () async {
                     loadUsers();

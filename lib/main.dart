@@ -1,4 +1,5 @@
-import 'package:eclipse_test_task/providers/posts.dart';
+import 'package:eclipse_test_task/providers/albums_and_photos.dart';
+import 'package:eclipse_test_task/providers/posts_and_comments.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:eclipse_test_task/providers/users.dart';
@@ -17,7 +18,10 @@ class MyApp extends StatelessWidget {
           value: Users(),
         ),
         ChangeNotifierProvider.value(
-          value: Posts(),
+          value: PostsAndComments(),
+        ),
+        ChangeNotifierProvider.value(
+          value: AlbumsAndPhotos(),
         ),
       ],
       child: Consumer<Users>(
