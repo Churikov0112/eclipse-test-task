@@ -26,15 +26,24 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     setState(() {
       isLoading = true;
     });
-    Provider.of<PostsAndComments>(context, listen: false)
-        .fetchCommentsForPostFromServer(widget.postId)
-        .then(
-          (_) => setState(
-            () {
-              isLoading = false;
-            },
-          ),
-        );
+    if (Provider.of<PostsAndComments>(context, listen: false)
+        .posts
+        .firstWhere((pst) => pst.id == widget.postId)
+        .comments
+        .isEmpty) {
+      Provider.of<PostsAndComments>(context, listen: false)
+          .fetchCommentsForPostFromServer(widget.postId)
+          .then(
+            (_) => setState(
+              () {
+                isLoading = false;
+              },
+            ),
+          );
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   // диалог для изменения возраста username

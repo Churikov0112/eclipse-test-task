@@ -34,7 +34,7 @@ class AlbumsAndPhotos with ChangeNotifier {
         userId: album['userId'],
         id: album['id'],
         title: album['title'],
-        photoURIs: [],
+        photos: [],
       );
 
       // добавление фото в альбомы
@@ -46,8 +46,11 @@ class AlbumsAndPhotos with ChangeNotifier {
           url: photo['url'],
           humbnailUrl: photo['humbnailUrl'] ?? photo['url'],
         );
-        newAlbum.photoURIs.add(newPhoto);
+        if (newPhoto.albumId == newAlbum.id) {
+          newAlbum.photos.add(newPhoto);
+        }
       }
+
       _loadedAlbums.add(newAlbum);
     }
     notifyListeners();

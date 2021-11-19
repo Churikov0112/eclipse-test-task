@@ -2,6 +2,7 @@ import 'package:eclipse_test_task/models/album/album.dart';
 import 'package:eclipse_test_task/models/post/post.dart';
 import 'package:eclipse_test_task/providers/albums_and_photos.dart';
 import 'package:eclipse_test_task/providers/posts_and_comments.dart';
+import 'package:eclipse_test_task/screens/user_albums_screen.dart';
 import 'package:eclipse_test_task/screens/user_posts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,17 +31,17 @@ class _UserScreenState extends State<UserScreen> {
     });
     Provider.of<PostsAndComments>(context, listen: false)
         .fetchPostsFromServer()
-        .then(
-          (_) => Provider.of<AlbumsAndPhotos>(context, listen: false)
-              .fetchAlbumsWithPhotosFromServer()
-              .then(
-                (_) => setState(
-                  () {
-                    isLoading = false;
-                  },
-                ),
-              ),
-        );
+        .then((_) {
+      Provider.of<AlbumsAndPhotos>(context, listen: false)
+          .fetchAlbumsWithPhotosFromServer()
+          .then(
+            (_) => setState(
+              () {
+                isLoading = false;
+              },
+            ),
+          );
+    });
   }
 
   @override
@@ -74,50 +75,52 @@ class _UserScreenState extends State<UserScreen> {
               user.name,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 20,
               ),
             ),
             SizedBox(height: 10),
-            Row(
-              children: [
-                Text('Email : ' + user.email),
-                SizedBox(width: 10),
-                TextButton(
-                  onPressed: () => print('copy email'),
-                  child: Text('Copy'),
-                ),
-              ],
+            Text('Email : ' + user.email),
+            SizedBox(height: 10),
+            Text('Phone : ' + user.phone),
+            SizedBox(height: 10),
+            Text('Website : ' + user.website),
+            SizedBox(height: 10),
+            Text('Company : '),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text('Name : ' + user.company.name),
             ),
-            Row(
-              children: [
-                Text('Phone : ' + user.phone),
-                SizedBox(width: 10),
-                TextButton(
-                  onPressed: () => print('copy phone'),
-                  child: Text('Copy'),
-                ),
-              ],
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text('Bs : ' + user.company.bs),
             ),
-            Row(
-              children: [
-                Text('Website : ' + user.website),
-                SizedBox(width: 10),
-                TextButton(
-                  onPressed: () => print('copy website'),
-                  child: Text('Copy'),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Expanded(
+                child: Container(
+                  child: Text.rich(
+                    TextSpan(
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: 'Catch phrase : ',
+                        ),
+                        TextSpan(
+                          text: '"' + user.company.catchPhrase + '"',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ],
+              ),
             ),
-            Row(
-              children: [
-                Text('Working : ' + user.company.name),
-                SizedBox(width: 10),
-                TextButton(
-                  onPressed: () => print('copy working'),
-                  child: Text('Copy'),
-                ),
-              ],
-            ),
+            SizedBox(height: 10),
+            Text('Address : ' + user.address.getAddress()),
           ],
         ),
       ),
@@ -193,7 +196,7 @@ class _UserScreenState extends State<UserScreen> {
               : ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    album!.photoURIs.last.humbnailUrl,
+                    album!.photos.last.humbnailUrl,
                   ),
                 ),
           SizedBox(height: 5),
@@ -274,10 +277,20 @@ class _UserScreenState extends State<UserScreen> {
                         ),
                       ),
                       Spacer(),
-                      Text(
-                        'Show more',
-                        style: TextStyle(
-                          color: MyColors.light_blue,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  UserAlbumsScreen(userId: user.id),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Show more',
+                          style: TextStyle(
+                            color: MyColors.light_blue,
+                          ),
                         ),
                       ),
                       SizedBox(width: 15),

@@ -19,6 +19,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
     setState(() {
       isLoading = true;
     });
+
     Provider.of<Users>(context, listen: false).fetchUsersFromServer().then(
           (_) => setState(() {
             isLoading = false;

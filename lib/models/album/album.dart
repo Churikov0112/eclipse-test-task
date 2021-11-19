@@ -4,12 +4,12 @@ class Album {
   int userId;
   int id;
   String title;
-  List<Photo> photoURIs;
+  List<Photo> photos;
 
   Album({
     required this.userId,
     required this.id,
     required this.title,
-    required this.photoURIs,
+    required this.photos,
   });
 }

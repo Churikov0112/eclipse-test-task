@@ -26,4 +26,17 @@ class Address {
     required this.zipcode,
     required this.geo,
   });
+
+  String getAddress() {
+    return city +
+        ", " +
+        "St. " +
+        street +
+        ", " +
+        suite +
+        ", " +
+        "Zip-code " +
+        zipcode +
+        ", ";
+  }
 }
