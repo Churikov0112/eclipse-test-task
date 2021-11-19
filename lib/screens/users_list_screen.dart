@@ -34,10 +34,10 @@ class _UsersListScreenState extends State<UsersListScreen> {
   }
 
   // список загруженных пользователей
-  Widget listOfUsers(List<User> users, Size deviceSize) {
+  Widget listOfUsers(List<User> users, Size deviceSize, Size appBarSize) {
     return Container(
-      height:
-          deviceSize.height - (MediaQuery.of(context).padding.top + 60 + 27),
+      height: deviceSize.height -
+          (MediaQuery.of(context).padding.top + appBarSize.height + 27),
       child: ListView.builder(
         itemBuilder: (context, index) => InkWell(
           onTap: () {
@@ -86,14 +86,17 @@ class _UsersListScreenState extends State<UsersListScreen> {
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
     var users = Provider.of<Users>(context).users;
+
+    AppBar appBar = AppBar(
+      title: Text('Users list'),
+      backgroundColor: MyColors.light_white,
+      foregroundColor: Colors.black,
+      elevation: 0.5,
+    );
+
     return Scaffold(
       backgroundColor: MyColors.light_white,
-      appBar: AppBar(
-        title: Text('Users list'),
-        backgroundColor: MyColors.light_white,
-        foregroundColor: Colors.black,
-        elevation: 0.5,
-      ),
+      appBar: appBar,
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
@@ -104,7 +107,11 @@ class _UsersListScreenState extends State<UsersListScreen> {
                   onRefresh: () async {
                     loadUsers();
                   },
-                  child: listOfUsers(users, deviceSize),
+                  child: listOfUsers(
+                    users,
+                    deviceSize,
+                    appBar.preferredSize,
+                  ),
                 ),
               ],
             ),

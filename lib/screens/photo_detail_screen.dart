@@ -83,14 +83,9 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> {
                   right: 30,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width - 30,
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Flexible(
-                        child: Text(
-                          widget.photos[currentPageIndex].title,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
+                    child: Text(
+                      widget.photos[currentPageIndex].title,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
                 ),

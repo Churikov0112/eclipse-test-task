@@ -99,22 +99,20 @@ class _UserScreenState extends State<UserScreen> {
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 20),
-              child: Expanded(
-                child: Container(
-                  child: Text.rich(
-                    TextSpan(
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: 'Catch phrase : ',
+              child: Container(
+                child: Text.rich(
+                  TextSpan(
+                    children: <InlineSpan>[
+                      TextSpan(
+                        text: 'Catch phrase : ',
+                      ),
+                      TextSpan(
+                        text: '"' + user.company.catchPhrase + '"',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
                         ),
-                        TextSpan(
-                          text: '"' + user.company.catchPhrase + '"',
-                          style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -133,45 +131,55 @@ class _UserScreenState extends State<UserScreen> {
     required String description,
     required Size deviceSize,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        children: [
-          Container(
-            width: deviceSize.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            padding: EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // заголовок
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 10),
-                // 1 строчка текста
-                Text(
-                  description,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) =>
+                UserPostsScreen(userId: widget.id),
           ),
-        ],
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: [
+            Container(
+              width: deviceSize.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              padding: EdgeInsets.all(15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // заголовок
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  // 1 строчка текста
+                  Text(
+                    description,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -181,30 +189,40 @@ class _UserScreenState extends State<UserScreen> {
     required Album? album,
     required Size deviceSize,
   }) {
-    return Container(
-      width: (deviceSize.width - 60) / 3,
-      child: Column(
-        children: [
-          isLoading
-              ? Center(
-                  child: SizedBox(
-                    child: CircularProgressIndicator(),
-                    height: 45,
-                    width: 45,
-                  ),
-                )
-              : ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    album!.photos.last.humbnailUrl,
-                  ),
-                ),
-          SizedBox(height: 5),
-          Text(
-            isLoading ? "loading..." : " " + album!.title,
-            overflow: TextOverflow.ellipsis,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) =>
+                UserAlbumsScreen(userId: widget.id),
           ),
-        ],
+        );
+      },
+      child: Container(
+        width: (deviceSize.width - 60) / 3,
+        child: Column(
+          children: [
+            isLoading
+                ? Center(
+                    child: SizedBox(
+                      child: CircularProgressIndicator(),
+                      height: 45,
+                      width: 45,
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      album!.photos.last.humbnailUrl,
+                    ),
+                  ),
+            SizedBox(height: 5),
+            Text(
+              isLoading ? "loading..." : " " + album!.title,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -335,7 +353,7 @@ class _UserScreenState extends State<UserScreen> {
               // 3 превью постов
               Column(
                 children: [
-                  // albums and show more
+                  // posts and show more
                   Row(
                     children: [
                       SizedBox(width: 15),
