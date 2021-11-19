@@ -6,8 +6,6 @@ import 'package:eclipse_test_task/consts/my_colors.dart';
 import 'package:eclipse_test_task/providers/users.dart';
 
 class UsersListScreen extends StatefulWidget {
-  static const routeName = '/users-list';
-
   @override
   _UsersListScreenState createState() => _UsersListScreenState();
 }
@@ -19,8 +17,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
     setState(() {
       isLoading = true;
     });
-
-    Provider.of<Users>(context, listen: false).fetchUsersFromServer().then(
+    Provider.of<Users>(context, listen: false).fetchUsers().then(
           (_) => setState(() {
             isLoading = false;
           }),
@@ -37,7 +34,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
   Widget listOfUsers(List<User> users, Size deviceSize, Size appBarSize) {
     return Container(
       height: deviceSize.height -
-          (MediaQuery.of(context).padding.top + appBarSize.height + 27),
+          (MediaQuery.of(context).padding.top + appBarSize.height),
       child: ListView.builder(
         itemBuilder: (context, index) => InkWell(
           onTap: () {
@@ -55,7 +52,6 @@ class _UsersListScreenState extends State<UsersListScreen> {
           },
           child: Column(
             children: [
-              index == 0 ? SizedBox(height: 15) : SizedBox(),
               ListTile(
                 leading: CircleAvatar(
                   child: Text(
@@ -101,19 +97,10 @@ class _UsersListScreenState extends State<UsersListScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              children: <Widget>[
-                RefreshIndicator(
-                  onRefresh: () async {
-                    loadUsers();
-                  },
-                  child: listOfUsers(
-                    users,
-                    deviceSize,
-                    appBar.preferredSize,
-                  ),
-                ),
-              ],
+          : listOfUsers(
+              users,
+              deviceSize,
+              appBar.preferredSize,
             ),
     );
   }

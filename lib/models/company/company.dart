@@ -1,15 +1,15 @@
-//import 'package:hive/hive.dart';
-//part 'company.g.dart';
+import 'package:hive/hive.dart';
+part 'company.g.dart';
 
-//@HiveType(typeId: 2)
-class Company {
-  //@HiveField(0)
+@HiveType(typeId: 1)
+class Company extends HiveObject {
+  @HiveField(0)
   String name;
 
-  //@HiveField(1)
+  @HiveField(1)
   String catchPhrase;
 
-  //@HiveField(2)
+  @HiveField(2)
   String bs;
 
   Company({
