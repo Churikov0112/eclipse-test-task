@@ -30,10 +30,10 @@ class _UserScreenState extends State<UserScreen> {
       isLoading = true;
     });
     Provider.of<PostsAndComments>(context, listen: false)
-        .fetchPostsFromServer()
+        .fetchPosts()
         .then((_) {
       Provider.of<AlbumsAndPhotos>(context, listen: false)
-          .fetchAlbumsWithPhotosFromServer()
+          .fetchAlbumsWithPhotos()
           .then(
             (_) => setState(
               () {

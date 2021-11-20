@@ -32,7 +32,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         .comments
         .isEmpty) {
       Provider.of<PostsAndComments>(context, listen: false)
-          .fetchCommentsForPostFromServer(widget.postId)
+          .fetchCommentsForPost(widget.postId)
           .then(
             (_) => setState(
               () {
