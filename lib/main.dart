@@ -22,9 +22,6 @@ Future<void> main() async {
   Hive.registerAdapter(AlbumAdapter());
   Hive.registerAdapter(PhotoAdapter());
   Hive.registerAdapter(CommentAdapter());
-
-  // var albumsData = await Hive.openBox<Album>('albumsData');
-  // var postsData = await Hive.openBox<Post>('postsData');
   runApp(MyApp());
 }
 
